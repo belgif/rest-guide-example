@@ -28,10 +28,10 @@ definitions:
       - registeredOrganization
     example:
       {
-        "employerId": 164893015,
+        "employerId": "164893015",
         "name": "Esprit",
         "registeredOrganization": {
-          "enterpriseNumber": 433072831
+          "enterpriseNumber": "0433072831"
         }
       }
 
