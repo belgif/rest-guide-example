@@ -1,0 +1,12 @@
+swagger: "2.0"
+info:
+  title: "JSON Merge Patch (RFC 7386) request body"
+  version: "1.0"
+paths: {}
+definitions:
+  MergePatch:
+    # Marker type as JSON Merge Patch requests can not be fully specified as a JSON Schema type
+    description: 'JSON Merge Patch (RFC 7386) request body'
+    type: object
+    additionalProperties:
+      type: object

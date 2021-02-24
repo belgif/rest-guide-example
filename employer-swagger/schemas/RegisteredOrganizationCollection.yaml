@@ -1,0 +1,65 @@
+swagger: "2.0"
+info:
+  title: "RegisteredOrganizationCollection type"
+  version: "1.0"
+paths: {}
+definitions:
+  RegisteredOrganizationCollection:
+    description: A paged collection of the details of the registered organization
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/RegisteredOrganizationLink'
+      total:
+        description: "the total number of items across all pages"
+        type: integer
+        format: "int32"
+      page: 
+        description: "Index of the current page, default 1"
+        type: "integer"
+        default: 1
+        format: "int32"
+      pageSize: 
+        description: "Maximum number of items per page, default 5"
+        type: "integer"
+        default: 5
+        format: "int32"
+      first:
+        type: string
+        format: uri
+        description: The URI of the first page
+        example: /item?page=1&pageSize=5
+      last:
+        type: string
+        format: uri
+        description: The URI of the last page
+        example: /item?page=13&pageSize=5
+      next:
+        type: string
+        format: uri
+        description: The URI of the next page
+        example: /item?page=5&pageSize=5
+      prev:
+        type: string
+        format: uri
+        description: The URI of the previous page
+        example: /item?page=3&pageSize=5 
+      self:
+        type: string
+        format: uri
+        description: The URI of the current page
+        example: /item?page=4&pageSize=5 
+      
+      
+  RegisteredOrganizationLink:
+    type: object
+    properties:
+      href:
+        type: string
+        format: uri
+      title:
+        type: string
+      enterpriseNumber: 
+        $ref: './Common.yaml#/definitions/EnterpriseNumber'

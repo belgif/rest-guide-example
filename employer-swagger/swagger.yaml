@@ -1,0 +1,486 @@
+---
+swagger: "2.0"
+info:
+  description: "This is the reference implementation or a REST webservice at Smals."
+  version: "v1"
+  title: "REST reference implementation"
+host: "rest-reference.test.paas.socialsecurity.be"
+basePath: "/REST/demo/v1"
+tags:
+- name: "ReferenceData"
+- name: "RegisteredOrganization"
+- name: "Documentation"
+- name: "Employer"
+- name: "Monitoring"
+schemes:
+- "http"
+- "https"
+paths:
+  /refData/employerClasses:
+    get:
+      tags:
+      - "ReferenceData"
+      summary: "List all values of employer classes"
+      description: ""
+      operationId: "getEmployerClasses"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Accept-Language"
+        in: "header"
+        description: "User language"
+        required: false
+        type: "string"
+        enum:
+        - "nl"
+        - "fr"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "./schemas/EmployerClass.yaml#/definitions/EmployerClass"
+              
+  /refData/employerClasses/{employerClass}:
+    get:
+      tags:
+      - "ReferenceData"
+      summary: ""
+      description: "return the data for an employer class"
+      operationId: "getDataOfEmployerClasses"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "employerClass"
+        in: "path"
+        description: "the value of the employer class"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "./schemas/EmployerClass.yaml#/definitions/EmployerClass"
+
+  /registeredOrganizations:
+    get:
+      tags:
+      - "RegisteredOrganization"
+      summary: "List all registered organizations"
+      description: ""
+      operationId: "findRegisteredOrganizations"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "page"
+        in: "query"
+        description: "Index of the current page, default 1"
+        required: false
+        type: "integer"
+        default: 1
+        format: "int32"
+      - name: "pageSize"
+        in: "query"
+        description: "Maximum number of items per page, default 5"
+        required: false
+        type: "integer"
+        default: 5
+        format: "int32"
+      - name: "name"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "startDate_gt"
+        in: "query"
+        description: "Greater than date filter"
+        required: false
+        type: "string"
+        format: date
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "./schemas/RegisteredOrganizationCollection.yaml#/definitions/RegisteredOrganizationCollection"
+            
+  /registeredOrganizations/{enterpriseNumber}:
+    get:
+      tags:
+      - "RegisteredOrganization"
+      summary: "Get an organization by its CBE identifier for registered organizations"
+      description: ""
+      operationId: "getRegisteredOrganizations"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "enterpriseNumber"
+        in: "path"
+        description: "Enterprise Number"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-gcloudValidationClassName: be.smals.validation.constraints.socialsecurity.CompanyId
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "./schemas/RegisteredOrganization.yaml#/definitions/RegisteredOrganization"  
+        "400":
+          description: "Bad Request parameter"
+          schema:
+            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+        "404":
+          description: "Not Found"
+          schema:
+            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+    put:
+      tags:
+      - "RegisteredOrganization"
+      summary: "Update an organization by giving its CBE identifier for registered organizations"
+      description: ""
+      operationId: "updateRegisteredOrganization"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "enterpriseNumber"
+        in: "path"
+        description: "CBE identifier for registered organizations"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-gcloudValidationClassName: be.smals.validation.constraints.socialsecurity.CompanyId
+      - in: "body"
+        name: "body"
+        description: "Data of registered organization"
+        required: true
+        schema:
+          $ref: "./schemas/RegisteredOrganization.yaml#/definitions/RegisteredOrganization"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "./schemas/RegisteredOrganization.yaml#/definitions/RegisteredOrganization" 
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+        "404":
+          description: "Not Found"
+          schema:
+            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+            
+    patch:
+      tags:
+      - "RegisteredOrganization"
+      summary: "Partially update a registered organization using JSON Merge Patch. See https://tools.ietf.org/html/rfc7396."
+      description: ""
+      operationId: "patchRegisteredOrganization"
+      consumes:
+      - "application/merge-patch+json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "enterpriseNumber"
+        in: "path"
+        description: "registered organization identifier from CBE"
+        required: true
+        type: "integer"
+        format: "int64"
+        x-gcloudValidationClassName: be.smals.validation.constraints.socialsecurity.CompanyId
+      - in: "body"
+        name: "body"
+        description: "MergePatch company.json"
+        required: true
+        schema:
+          $ref: "./schemas/MergePatch.yaml#/definitions/MergePatch"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "./schemas/RegisteredOrganization.yaml#/definitions/RegisteredOrganization"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+        "404":
+          description: "Not Found"
+          schema:
+            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+
+  /doc:
+    get:
+      tags:
+      - "Documentation"
+      summary: "List links"
+      description: ""
+      operationId: "getDoc"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        default:
+          description: "successful operation"
+          schema:
+            type: object
+  /doc/schemas/{name}:
+    get:
+      tags:
+      - "Documentation"
+      summary: "Returns schema in Json or Yaml format"
+      description: ""
+      operationId: "getSchema"
+      produces:
+      - "application/json"
+      - "application/yaml"
+      parameters:
+      - name: "name"
+        in: "path"
+        description: "Schema name"
+        required: true
+        type: "string"
+        pattern: ".+"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "string"
+  /doc/swagger.json:
+    get:
+      tags:
+      - "Documentation"
+      summary: "Returns the API documentation in JSON Swagger format"
+      operationId: "getJsonSwagger"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "string"
+  /doc/swagger.yaml:
+    get:
+      tags:
+      - "Documentation"
+      summary: "Returns the API documentation in YAML Swagger format"
+      operationId: "getSwagger"
+      produces:
+      - "application/yaml" # TODO yaml
+      parameters: []
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "string"
+            
+  /employers:
+    get:
+      tags:
+      - "Employer"
+      summary: "List all employers"
+      description: ""
+      operationId: "findEmployers"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "pageSize"
+        in: "query"
+        description: "Maximum number of items per page, default 5"
+        required: false
+        type: "integer"
+        default: 5
+        format: "int32"
+        
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "./schemas/EmployerCollection.yaml#/definitions/EmployerCollection"
+    post:
+      tags:
+      - "Employer"
+      summary: "Create a new employer"
+      description: ""
+      operationId: "createEmployer"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Employer data"
+        required: true
+        schema:
+          $ref: "./schemas/Employer.yaml#/definitions/Employer"
+      responses:
+        "201":
+          description: "Created"
+          headers:
+            Location:
+              type: "string"
+              format: "uri"
+              description: "location of the created employer"
+        "400":
+          description: "Bad Request parameter"
+          schema:
+            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+            
+    delete:
+      tags:
+      - "Employer"
+      summary: "Delete the employers with a certain status"
+      description: "Delete the employers with a certain status. /!\\ If for an employer status = provisional, it does not always mean that they have a provisionalNssoNumber"
+      operationId: "removeEmployers"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "status"
+        in: "query"
+        description: "employer status"
+        required: true
+        type: "string"
+        enum: 
+        - definitive
+        - provisional 
+        - unknown
+      responses:
+        "204":
+          description: "OK"
+        "404":
+          description: "Not Found"
+          schema:
+            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+            
+            
+  /employers/{employerId}:
+    get:
+      tags:
+      - "Employer"
+      summary: "Get an employer by an NSSO number, either definitive, provisional or number of provisional or local administration"
+      description: ""
+      operationId: "getEmployer"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "employerId"
+        in: "path"
+        description: "any type of NSSO Registration number"
+        required: true
+        type: "integer"
+        x-gcloudValidationClassName: be.smals.validation.constraints.socialsecurity.NossRegistrationNumber
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "./schemas/Employer.yaml#/definitions/Employer"
+        "400":
+          description: "Bad Request parameter"
+          schema:
+            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+        "404":
+          description: "Not Found"
+          schema:
+            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+          
+          
+    delete:
+      tags:
+      - "Employer"
+      summary: "Delete an employer by any type of NSSO registration number"
+      description: ""
+      operationId: "deleteEmployer"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "employerId"
+        in: "path"
+        description: "any type of NSSO Registration Number"
+        required: true
+        type: "integer"
+        x-gcloudValidationClassName: be.smals.validation.constraints.socialsecurity.NossRegistrationNumber
+      responses:
+        "204":
+          description: "OK"
+        "404":
+          description: "Not Found"
+          schema:
+            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+          
+          
+  /employers/{employerId}/link:
+    post:
+      tags:
+      - "Employer"
+      description: "Controller resource to link an Employer with a Registered Organization, using the registered organization identifier from CBE" 
+      operationId: "linkEmployer"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "employerId"
+        in: "path"
+        description: "any type of NSSO Registration number"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "./schemas/Employer.yaml#/definitions/Employer"
+        "400":
+          description: "Bad Request parameter"
+          schema:
+            $ref: "./schemas/Problem.yaml#/definitions/Problem"  
+        "404":
+          description: "Not Found"
+          schema:
+            $ref: "./schemas/Problem.yaml#/definitions/Problem"  
+      
+          
+  /health:
+    get:
+      tags:
+      - "Monitoring"
+      summary: "Check health of this REST API"
+      description: "This resource is only available to supervision users"
+      operationId: "checkHealth"
+      externalDocs:
+        url: "https://www.gcloud.belgium.be/rest/#health"    
+      responses:
+        "200":
+          description: "The service is UP or DEGRADED"
+          examples:
+            application/json:
+              status: "UP"
+          schema:
+            $ref: "#/definitions/HealthStatus"
+        "500":
+          description: "The service cannot generate a health response."
+          schema:
+            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+        "503":
+          description: "The service is DOWN"
+          examples:
+            application/json:
+              status: "DOWN"
+          schema:
+            $ref: "#/definitions/HealthStatus"
+  
+definitions:
+
+ HealthStatus:
+    description: Response message for the API health
+    type: object
+    properties:
+      status:
+        description: "Level indicating the health status of the service: UP (functioning as expected), DOWN (suffering unexpected failures), DEGRADED (partly unavailable but service can be continued with reduced functionality), or a custom status value"
+        type: string
+    required:
+      - status

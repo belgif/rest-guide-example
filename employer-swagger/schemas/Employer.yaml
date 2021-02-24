@@ -1,0 +1,37 @@
+swagger: "2.0"
+info:
+  title: "Employer type"
+  version: "1.0"
+paths: {}
+definitions:
+  Employer:
+    type: object
+    properties:
+      name:
+        type: string
+      employerId:
+        allOf:
+    
+          - $ref: './Common.yaml#/definitions/EmployerId'
+   
+          - type: string
+        
+          - readOnly: true
+      registeredOrganization:
+        $ref: './RegisteredOrganizationCollection.yaml#/definitions/RegisteredOrganizationLink'
+      employerClasses:
+        type: array
+        items:
+          $ref: './Common.yaml#/definitions/HttpLink'
+    required:
+      - name
+      - registeredOrganization
+    example:
+      {
+        "employerId": 164893015,
+        "name": "Esprit",
+        "registeredOrganization": {
+          "enterpriseNumber": 433072831
+        }
+      }
+

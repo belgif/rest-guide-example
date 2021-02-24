@@ -1,0 +1,17 @@
+swagger: "2.0"
+info:
+  title: "A description specified in multiple languages"
+  version: "1.0"
+paths: {}
+definitions:
+  LocalizedString:
+    description: 'A description specified in multiple languages'
+    type: object
+    properties:
+      #nl, fr, de are predefined, but additional languages can be added
+      nl:
+        type: string
+      fr:
+        type: string
+      de:
+        type: string

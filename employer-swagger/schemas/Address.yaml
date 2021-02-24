@@ -1,0 +1,50 @@
+swagger: "2.0"
+info:
+  title: "Address type"
+  version: "1.0"
+paths: {}
+definitions:
+  Address:
+    description: 'An address'
+    type: object
+    properties:
+      streetName:
+        type: string
+      streetRrnCode:
+        description: Street code assigned by National Registry
+        type: integer
+        minimum: 1
+        maximum: 9999
+      houseNumber:
+        type: string
+      boxNumber:
+        type: string
+      postCode:
+        type: string
+      municipalityName:
+        type: string
+      municipalityCode:
+        description: Numeric code to identify a Belgian municipality  
+        #municipality codes are the same in BeSt address and NIS code list
+        type: integer
+        minimum: 10000 
+        maximum: 99999
+      belgianRegionCode:
+        description: Belgian Region represented by an ISO 3166-2:BE code
+        type: string
+        enum: 
+          - BE-BRU
+          - BE-WAL
+          - BE-VLG  
+      countryNisCode:
+      description: NIS code representing a country as defined by statbel.fgov.be
+        type: integer
+        minimum: 100
+        maximum: 999
+      country:
+        type: string
+    required:
+      - streetName
+      - houseNumber 
+      - postCode
+      - municipalityName 

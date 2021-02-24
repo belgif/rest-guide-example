@@ -1,0 +1,32 @@
+swagger: "2.0"
+info:
+  title: "Common types used in several resources"
+  version: "1.0"
+paths: {}
+definitions:
+  EnterpriseNumber:
+    description: 'Identifier issued by CBE for a registered organization'
+    type: string
+    pattern: '^[0|1]\d{9}$'
+    x-gcloudValidationClassName: be.smals.validation.constraints.socialsecurity.CompanyId
+    example: 406798006
+  EmployerId:
+    description: 'Definitive or provisional NSSO number, assigned to each registered employer or local or provincial administration'
+    type: string
+    pattern: '^5?\d{9}$' # first digit 5 indicates a provisional NSSO number
+    example: '000100006'
+    x-gcloudValidationClassName: be.smals.validation.constraints.socialsecurity.NossRegistrationNumber
+  HttpLink:
+    description: 'A base type of objects representing links to resources.'
+    type: object
+    properties:
+      href:
+        description: 'Any absolute URI that is using http or https protocol'
+        type: string
+        format: uri
+      title:
+        description: 'Its value is a string and is intended for labelling the link
+          with a human-readable identifier (as defined by [RFC5988]).'
+        type: string
+    required:
+      - href
