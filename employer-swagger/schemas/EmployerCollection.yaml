@@ -25,27 +25,27 @@ definitions:
         type: string
         format: uri
         description: The URI of the first page
-        example: /item?page=1&pageSize=5
+        example: https://rest-reference.test.paas.socialsecurity.be/REST/demo/v1/employers?page=1&pageSize=5
       last:
         type: string
         format: uri
         description: The URI of the last page
-        example: /item?page=13&pageSize=5
+        example: https://rest-reference.test.paas.socialsecurity.be/REST/demo/v1/employers?page=13&pageSize=5
       next:
         type: string
         format: uri
         description: The URI of the next page
-        example: /item?page=5&pageSize=5
+        example: https://rest-reference.test.paas.socialsecurity.be/REST/demo/v1/employers?page=5&pageSize=5
       prev:
         type: string
         format: uri
         description: The URI of the previous page
-        example: /item?page=3&pageSize=5 
+        example: https://rest-reference.test.paas.socialsecurity.be/REST/demo/v1/employers?page=3&pageSize=5 
       self:
         type: string
         format: uri
         description: The URI of the current page
-        example: /item?page=4&pageSize=5 
+        example: https://rest-reference.test.paas.socialsecurity.be/REST/demo/v1/employers?page=4&pageSize=5 
         
   EmployerLink:
     type: object
