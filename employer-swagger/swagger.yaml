@@ -116,7 +116,6 @@ paths:
         required: true
         type: "integer"
         format: "int64"
-        x-gcloudValidationClassName: be.smals.validation.constraints.socialsecurity.CompanyId
       responses:
         "200":
           description: "successful operation"
@@ -146,7 +145,6 @@ paths:
         required: true
         type: "integer"
         format: "int64"
-        x-gcloudValidationClassName: be.smals.validation.constraints.socialsecurity.CompanyId
       - in: "body"
         name: "body"
         description: "Data of registered organization"
@@ -183,7 +181,6 @@ paths:
         required: true
         type: "integer"
         format: "int64"
-        x-gcloudValidationClassName: be.smals.validation.constraints.socialsecurity.CompanyId
       - in: "body"
         name: "body"
         description: "MergePatch company.json"
@@ -360,7 +357,6 @@ paths:
         description: "any type of NSSO Registration number"
         required: true
         type: "integer"
-        x-gcloudValidationClassName: be.smals.validation.constraints.socialsecurity.NossRegistrationNumber
       responses:
         "200":
           description: "successful operation"
@@ -389,7 +385,6 @@ paths:
         description: "any type of NSSO Registration Number"
         required: true
         type: "integer"
-        x-gcloudValidationClassName: be.smals.validation.constraints.socialsecurity.NossRegistrationNumber
       responses:
         "204":
           description: "OK"
