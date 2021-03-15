@@ -59,6 +59,6 @@ definitions:
           with a human-readable identifier (as defined by [RFC5988]).'
         type: string
       employerId:
-        $ref: './Common.yaml#/definitions/EmployerId'
+        $ref: './Employer.yaml#/definitions/EmployerId'
       enterpriseNumber:
-        $ref: './Common.yaml#/definitions/EnterpriseNumber'
+        $ref: '../belgif/organization/identifier/v1/organization-identifier-v1.yaml#/definitions/EnterpriseNumber'

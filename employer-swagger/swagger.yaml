@@ -1,4 +1,3 @@
----
 swagger: "2.0"
 info:
   description: "This is an example API of a REST webservice respecting the REST styleguide."
@@ -130,11 +129,11 @@ paths:
         "400":
           description: "Bad Request parameter"
           schema:
-            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+            $ref: "./belgif/problem/v1/problem-v1.yaml#/definitions/Problem"
         "404":
           description: "Not Found"
           schema:
-            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+            $ref: "./belgif/problem/v1/problem-v1.yaml#/definitions/Problem"
     put:
       tags:
       - "RegisteredOrganization"
@@ -167,11 +166,11 @@ paths:
         "400":
           description: "Bad Request"
           schema:
-            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+            $ref: "./belgif/problem/v1/problem-v1.yaml#/definitions/Problem"
         "404":
           description: "Not Found"
           schema:
-            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+            $ref: "./belgif/problem/v1/problem-v1.yaml#/definitions/Problem"
             
     patch:
       tags:
@@ -196,7 +195,7 @@ paths:
         description: "MergePatch company.json"
         required: true
         schema:
-          $ref: "./schemas/MergePatch.yaml#/definitions/MergePatch"
+          $ref: "./belgif/common/v1/common-v1.yaml#/definitions/MergePatch"
       responses:
         "200":
           description: "successful operation"
@@ -205,11 +204,11 @@ paths:
         "400":
           description: "Bad Request"
           schema:
-            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+            $ref: "./belgif/problem/v1/problem-v1.yaml#/definitions/Problem"
         "404":
           description: "Not Found"
           schema:
-            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+            $ref: "./belgif/problem/v1/problem-v1.yaml#/definitions/Problem"
 
   /doc:
     get:
@@ -328,7 +327,7 @@ paths:
         "400":
           description: "Bad Request parameter"
           schema:
-            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+            $ref: "./belgif/problem/v1/problem-v1.yaml#/definitions/Problem"
             
     delete:
       tags:
@@ -354,7 +353,7 @@ paths:
         "404":
           description: "Not Found"
           schema:
-            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+            $ref: "./belgif/problem/v1/problem-v1.yaml#/definitions/Problem"
             
             
   /employers/{employerId}:
@@ -381,11 +380,11 @@ paths:
         "400":
           description: "Bad Request parameter"
           schema:
-            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+            $ref: "./belgif/problem/v1/problem-v1.yaml#/definitions/Problem"
         "404":
           description: "Not Found"
           schema:
-            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+            $ref: "./belgif/problem/v1/problem-v1.yaml#/definitions/Problem"
           
           
     delete:
@@ -409,7 +408,7 @@ paths:
         "404":
           description: "Not Found"
           schema:
-            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+            $ref: "./belgif/problem/v1/problem-v1.yaml#/definitions/Problem"
           
           
   /employers/{employerId}/link:
@@ -437,50 +436,45 @@ paths:
         "400":
           description: "Bad Request parameter"
           schema:
-            $ref: "./schemas/Problem.yaml#/definitions/Problem"  
+            $ref: "./belgif/problem/v1/problem-v1.yaml#/definitions/Problem"  
         "404":
           description: "Not Found"
           schema:
-            $ref: "./schemas/Problem.yaml#/definitions/Problem"  
-      
-          
+            $ref: "./belgif/problem/v1/problem-v1.yaml#/definitions/Problem"  
+            
   /health:
     get:
       tags:
-      - "Monitoring"
-      summary: "Check health of this REST API"
-      description: "This resource is only available to supervision users"
-      operationId: "checkHealth"
+        - Monitoring
+      summary: Check health of the service
+      description: This resource is only available to supervision users
+      operationId: checkHealth
       externalDocs:
-        url: "https://www.gcloud.belgium.be/rest/#health"    
+        url: "https://www.gcloud.belgium.be/rest/#health"
+      produces:
+        - application/json
+      security: []
       responses:
         "200":
-          description: "The service is UP or DEGRADED"
+          description: The service is UP or DEGRADED
+          schema:
+            $ref: "./belgif/common/v1/common-v1.yaml#/definitions/HealthStatus"
           examples:
             application/json:
-              status: "UP"
-          schema:
-            $ref: "#/definitions/HealthStatus"
+              {
+                "status": "UP"
+              }
         "500":
-          description: "The service cannot generate a health response."
+          description: The service cannot generate a health response.
           schema:
-            $ref: "./schemas/Problem.yaml#/definitions/Problem"
+            $ref: "./belgif/problem/v1/problem-v1.yaml#/definitions/Problem"
         "503":
-          description: "The service is DOWN"
-          examples:
-            application/json:
-              status: "DOWN"
+          description: The service is DOWN
           schema:
-            $ref: "#/definitions/HealthStatus"
-  
-definitions:
-
- HealthStatus:
-    description: Response message for the API health
-    type: object
-    properties:
-      status:
-        description: "Level indicating the health status of the service: UP (functioning as expected), DOWN (suffering unexpected failures), DEGRADED (partly unavailable but service can be continued with reduced functionality), or a custom status value"
-        type: string
-    required:
-      - status
+            $ref: "./belgif/common/v1/common-v1.yaml#/definitions/HealthStatus"
+          examples: {
+            application/json:
+              {
+                "status": "DOWN"
+              }
+          }

@@ -62,4 +62,4 @@ definitions:
       title:
         type: string
       enterpriseNumber: 
-        $ref: './Common.yaml#/definitions/EnterpriseNumber'
+        $ref: '../belgif/organization/identifier/v1/organization-identifier-v1.yaml#/definitions/EnterpriseNumber'

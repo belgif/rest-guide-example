@@ -11,6 +11,6 @@ definitions:
       value:
         type: string
       description:
-        $ref: './LocalizedString.yaml#/definitions/LocalizedString'
+        $ref: '../belgif/common/v1/common-v1.yaml#/definitions/LocalizedString'
     required:
     - value
