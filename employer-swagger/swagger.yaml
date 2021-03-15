@@ -71,13 +71,7 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "page"
-        in: "query"
-        description: "Index of the current page, default 1"
-        required: false
-        type: "integer"
-        default: 1
-        format: "int32"
+      - $ref: "./belgif/common/v1/common-v1.yaml#/parameters/PageQueryParameter"
       - name: "pageSize"
         in: "query"
         description: "Maximum number of items per page, default 5"
@@ -281,7 +275,7 @@ paths:
         type: "integer"
         default: 5
         format: "int32"
-        
+      - $ref: "./belgif/common/v1/common-v1.yaml#/parameters/PageQueryParameter" 
       responses:
         "200":
           description: "successful operation"
