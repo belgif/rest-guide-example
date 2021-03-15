@@ -12,7 +12,6 @@ tags:
 - name: "Employer"
 - name: "Monitoring"
 schemes:
-- "http"
 - "https"
 paths:
   /refData/employerClasses:
@@ -20,7 +19,6 @@ paths:
       tags:
       - "ReferenceData"
       summary: "List all values of employer classes"
-      description: ""
       operationId: "getEmployerClasses"
       produces:
       - "application/json"
@@ -69,7 +67,6 @@ paths:
       tags:
       - "RegisteredOrganization"
       summary: "List all registered organizations"
-      description: ""
       operationId: "findRegisteredOrganizations"
       produces:
       - "application/json"
@@ -109,7 +106,6 @@ paths:
       tags:
       - "RegisteredOrganization"
       summary: "Get an organization by its CBE identifier for registered organizations"
-      description: ""
       operationId: "getRegisteredOrganizations"
       produces:
       - "application/json"
@@ -138,7 +134,6 @@ paths:
       tags:
       - "RegisteredOrganization"
       summary: "Update an organization by giving its CBE identifier for registered organizations"
-      description: ""
       operationId: "updateRegisteredOrganization"
       consumes:
       - "application/json"
@@ -176,7 +171,6 @@ paths:
       tags:
       - "RegisteredOrganization"
       summary: "Partially update a registered organization using JSON Merge Patch. See https://tools.ietf.org/html/rfc7396."
-      description: ""
       operationId: "patchRegisteredOrganization"
       consumes:
       - "application/merge-patch+json"
@@ -215,7 +209,6 @@ paths:
       tags:
       - "Documentation"
       summary: "List links"
-      description: ""
       operationId: "getDoc"
       produces:
       - "application/json"
@@ -230,7 +223,6 @@ paths:
       tags:
       - "Documentation"
       summary: "Returns schema in Json or Yaml format"
-      description: ""
       operationId: "getSchema"
       produces:
       - "application/json"
@@ -281,7 +273,6 @@ paths:
       tags:
       - "Employer"
       summary: "List all employers"
-      description: ""
       operationId: "findEmployers"
       produces:
       - "application/json"
@@ -303,7 +294,6 @@ paths:
       tags:
       - "Employer"
       summary: "Create a new employer"
-      description: ""
       operationId: "createEmployer"
       consumes:
       - "application/json"
@@ -361,7 +351,6 @@ paths:
       tags:
       - "Employer"
       summary: "Get an employer by an NSSO number, either definitive, provisional or number of provisional or local administration"
-      description: ""
       operationId: "getEmployer"
       produces:
       - "application/json"
@@ -391,7 +380,6 @@ paths:
       tags:
       - "Employer"
       summary: "Delete an employer by any type of NSSO registration number"
-      description: ""
       operationId: "deleteEmployer"
       produces:
       - "application/json"
