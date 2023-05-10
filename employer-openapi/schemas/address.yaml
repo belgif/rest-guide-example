@@ -35,6 +35,8 @@ components:
           $ref: 'belgif/location/v1/location-v1.yaml#/components/schemas/CountryNisCode'
         name:
           type: string
+      required:
+        - countryNisCode
     Municipality:
       type: object
       properties:

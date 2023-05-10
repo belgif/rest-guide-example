@@ -5,20 +5,13 @@ info:
 paths: { }
 components:
   schemas:
-    EmployerId:
-      # Use this until belgif schemas get updated to int64 https://github.com/belgif/openapi-employment-identifier/blob/master/src/main/openapi/employment/identifier/v1/employment-identifier-v1.yaml
-      description: Definitive or provisional NSSO number, assigned to each registered employer or local or provincial administration.
-      type: integer
-      format: int64
-      minimum: 197
-      maximum: 5999999999
     Employer:
       type: object
       properties:
         name:
           type: string
         employerId:
-          $ref: '#/components/schemas/EmployerId'
+          $ref: 'belgif/employment/identifier/v1/employment-identifier-v1.yaml#/components/schemas/EmployerId'
         organization:
           $ref: 'organization.yaml#/components/schemas/OrganizationLink'
         economicalActivities:
@@ -31,6 +24,9 @@ components:
             $ref: '#/components/schemas/EmployerClassLink'
         size:
           $ref: '#/components/schemas/EmployerSize'
+        self:
+          type: string
+          format: uri
       required:
         - name
         - organization
@@ -67,7 +63,7 @@ components:
             human-readable identifier (as defined by [RFC5988]).
           type: string
         employerId:
-          $ref: '#/components/schemas/EmployerId'
+          $ref: 'belgif/employment/identifier/v1/employment-identifier-v1.yaml#/components/schemas/EmployerId'
         enterpriseNumber:
           $ref: 'belgif/organization/identifier/v1/organization-identifier-v1.yaml#/components/schemas/EnterpriseNumber'
     EmployerClasses:
@@ -102,6 +98,9 @@ components:
           type: string
         description:
           type: string
+        self:
+          type: string
+          format: uri
       required:
         - value
     EmployerSize:

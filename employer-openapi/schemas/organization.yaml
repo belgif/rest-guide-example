@@ -6,6 +6,11 @@ servers: []
 paths: {}
 components:
   schemas:
+    OrganizationState:
+      type: string
+      enum:
+        - active
+        - inactive
     Organization:
       type: object
       description: Represents a collection of people organized together into a community or other social, commercial or political structure. The group has some common purpose or reason for existence which goes beyond the set of people belonging to it and can act as an Agent. Organizations are often decomposable into hierarchical structures.
@@ -13,12 +18,9 @@ components:
         name:
           type: string
         state:
-          type: string
-          enum:
-            - active
-            - inactive
+          $ref: '#/components/schemas/OrganizationState'
         enterpriseNumber:
-          $ref: 'belgif/organization/identifier/v1/organization-identifier-v1.yaml#/components/schemas/EnterpriseNumber'
+          $ref: './belgif/organization/identifier/v1/organization-identifier-v1.yaml#/components/schemas/EnterpriseNumber'
         startDate:
           type: string
           format: date
@@ -29,7 +31,6 @@ components:
           format: date-time
       required:
         - name
-        - enterpriseNumber
     Organizations:
       description: A paged collection of organization links
       type: object
@@ -120,5 +121,8 @@ components:
           $ref: "#/components/schemas/EconomicalActivity"
         description:
           $ref: 'belgif/common/v1/common-v1.yaml#/components/schemas/LocalizedString'
+        self:
+          type: string
+          format: uri
       required:
         - value
