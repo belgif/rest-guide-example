@@ -151,6 +151,7 @@
 							<goal>sign</goal>
 						</goals>
 						<configuration>
+							<skip>true</skip> <!-- should be configured to only run for release builds -->
 							<gpgArguments>
 								<arg>--pinentry-mode</arg>
 								<arg>loopback</arg>
