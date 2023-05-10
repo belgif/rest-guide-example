@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+	
+	<groupId>io.github.belgif.openapi</groupId>
+	<artifactId>rest-guide-example</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>OpenAPI spec of REST styleguide reference API</description>
+	<url>https://github.com/belgif/rest-guide-example</url>
+
+	<developers>
+		<developer>
+			<name>Belgif REST guide work group</name>
+			<email>rest-styleguide@gcloud.belgium.be</email>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>scm:git:git://github.com/belgif/rest-guide-example.git</connection>
+		<developerConnection>scm:git:ssh://github.com:belgif/rest-guide-example.git</developerConnection>
+		<url>https://github.com/belgif/rest-guide-example</url>
+	</scm>
+
+    <dependencies>
+
+        <!-- Belgif schema's -->
+        <dependency>
+            <groupId>io.github.belgif.openapi</groupId>
+            <artifactId>belgif-openapi-common</artifactId>
+            <version>1.3.0</version>
+            <type>zip</type>
+            <classifier>openapi</classifier>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.belgif.openapi</groupId>
+            <artifactId>belgif-openapi-location</artifactId>
+            <version>1.1.0</version>
+            <type>zip</type>
+            <classifier>openapi</classifier>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.belgif.openapi</groupId>
+            <artifactId>belgif-openapi-organization-identifier</artifactId>
+            <version>1.0.1</version>
+            <type>zip</type>
+            <classifier>openapi</classifier>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.belgif.openapi</groupId>
+            <artifactId>belgif-openapi-employment-identifier</artifactId>
+            <version>1.0.2</version>
+            <type>zip</type>
+            <classifier>openapi</classifier>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.belgif.openapi</groupId>
+            <artifactId>belgif-openapi-problem</artifactId>
+            <version>1.3.0</version>
+            <type>zip</type>
+            <classifier>openapi</classifier>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.4.0</version>
+                <executions>
+                    <execution>
+                        <id>unpack-belgif</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeGroupIds>io.github.belgif.openapi</includeGroupIds>
+                            <outputDirectory>${project.basedir}/src/main/openapi/schemas</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${project.basedir}/src/main/openapi/schemas/belgif</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.3.0</version>
+				<executions>
+					<execution>
+						<id>create-distribution</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<descriptors>
+								<descriptor>src/main/assembly/openapi.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.8.2</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+						<configuration>
+							<gpgArguments>
+								<arg>--pinentry-mode</arg>
+								<arg>loopback</arg>
+							</gpgArguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+    </build>
+
+</project>
