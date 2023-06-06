@@ -330,7 +330,7 @@ paths:
                 format: binary
         default:
           "$ref": "schemas/belgif/problem/v1/problem-v1.yaml#/components/responses/ProblemResponse"
-  /logos/{id}/metadata:
+  /logos/{id}/meta:
     get:
       description: get logo metadata
       operationId: getLogoMetaData
@@ -382,19 +382,6 @@ paths:
                   contentType: image/png, image/jpeg
         default:
           "$ref": "schemas/belgif/problem/v1/problem-v1.yaml#/components/responses/ProblemResponse"
-  /doc:
-    get:
-      tags:
-        - Documentation
-      summary: List links
-      operationId: getDoc
-      responses:
-        default:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: object
   /doc/openapi.yaml:
     get:
       tags:
@@ -522,18 +509,7 @@ paths:
       summary: Check health of this REST API
       description: This resource is only available to supervision users
       operationId: healthCheck
-      parameters:
-        - name: type
-          in: query
-          description: Defines which sanity checks must be ran
-          required: false
-          schema:
-            type: string
-            enum:
-              - ping
-              - default
-              - deep
-            default: default
+      #TODO: use new health types once https://github.com/belgif/openapi-common/pull/5 released
       responses:
         "200":
           description: The service is UP or DEGRADED
