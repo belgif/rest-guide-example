@@ -370,21 +370,6 @@ paths:
                   contentType: image/png
         default:
           "$ref": "schemas/belgif/problem/v1/problem-v1.yaml#/components/responses/ProblemResponse"
-  /doc:
-    get:
-      tags:
-        - Documentation
-      summary: List links
-      operationId: getDoc
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: object
-        default:
-          "$ref": "schemas/belgif/problem/v1/problem-v1.yaml#/components/responses/ProblemResponse"
   /doc/openapi.yaml:
     get:
       tags:
