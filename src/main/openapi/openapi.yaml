@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.0.3
 info:
   title: REST reference implementation
   description: This is the reference implementation of a REST API following the G-Cloud style guide.
@@ -112,6 +112,7 @@ paths:
             type: integer
             format: int32
             default: 1
+            minimum: 1
         - name: pageSize
           in: query
           description: Maximum number of items per page, default 5
@@ -175,7 +176,6 @@ paths:
           in: path
           description: Enterprise Number
           required: true
-          x-extra-annotation: '@be.smals.validation.constraints.socialsecurity.EnterpriseNumber'
           schema:
             $ref: 'schemas/belgif/organization/identifier/v1/organization-identifier-v1.yaml#/components/schemas/EnterpriseNumber'
       responses:
@@ -197,7 +197,6 @@ paths:
           in: path
           description: Enterprise Number
           required: true
-          x-extra-annotation: '@be.smals.validation.constraints.socialsecurity.EnterpriseNumber'
           schema:
             $ref: 'schemas/belgif/organization/identifier/v1/organization-identifier-v1.yaml#/components/schemas/EnterpriseNumber'
       responses:
@@ -215,7 +214,6 @@ paths:
           in: path
           description: enterprise number of the organization
           required: true
-          x-extra-annotation: '@be.smals.validation.constraints.socialsecurity.EnterpriseNumber'
           schema:
             $ref: 'schemas/belgif/organization/identifier/v1/organization-identifier-v1.yaml#/components/schemas/EnterpriseNumber'
       requestBody:
@@ -245,7 +243,6 @@ paths:
           in: path
           description: enterprise number of the organization
           required: true
-          x-extra-annotation: '@be.smals.validation.constraints.socialsecurity.EnterpriseNumber'
           schema:
             $ref: 'schemas/belgif/organization/identifier/v1/organization-identifier-v1.yaml#/components/schemas/EnterpriseNumber'
       requestBody:
@@ -267,7 +264,7 @@ paths:
   /logos:
     post:
 #      Note! This method is not implemented and will always return status 201!
-      description: Upload a new logo
+      summary: Upload a new logo
       operationId: uploadLogo
       tags:
         - Logos
@@ -286,7 +283,7 @@ paths:
         default:
           "$ref": "schemas/belgif/problem/v1/problem-v1.yaml#/components/responses/ProblemResponse"
     get:
-      description: See list of image metadata
+      summary: See list of image metadata
       operationId: getLogos
       tags:
         - Logos
@@ -300,13 +297,13 @@ paths:
         default:
           $ref: 'schemas/belgif/problem/v1/problem-v1.yaml#/components/responses/ProblemResponse'
 
-  /logos/{id}/image:
+  /logos/{logoId}/image:
     get:
-      description: Dowload Logo Image
+      summary: Dowload Logo Image
       operationId: downloadLogoImage
       tags: [Logos]
       parameters:
-        - name: id
+        - name: logoId
           in: path
           required: true
           schema:
@@ -316,7 +313,6 @@ paths:
         "200":
           description: image data
           content:
-          # media type image/* isn't supported by openapi generator
             image/png:
               schema:
                 type: string
@@ -327,14 +323,14 @@ paths:
                 format: binary
         default:
           "$ref": "schemas/belgif/problem/v1/problem-v1.yaml#/components/responses/ProblemResponse"
-  /logos/{id}/meta:
+  /logos/{logoId}/meta:
     get:
-      description: get logo metadata
+      summary: get logo metadata
       operationId: getLogoMetaData
       tags:
         - Logos
       parameters:
-        - name: id
+        - name: logoId
           in: path
           required: true
           schema:
@@ -349,34 +345,44 @@ paths:
                 $ref: 'schemas/logo.yaml#/components/schemas/LogoMetaData'
         default:
           "$ref": "schemas/belgif/problem/v1/problem-v1.yaml#/components/responses/ProblemResponse"
-  /logos/{id}:
+  /logos/{logoId}:
     get:
-      description: Download logo
+      summary: Download logo
       operationId: downloadLogo
       tags:
         - Logos
       parameters:
-        - name: id
+        - name: logoId
           in: path
           required: true
           schema:
             type: string
             pattern: ^[\w-]+$
-        - name: accept
-          in: header
-          required: false
-          schema:
-            type: string
       responses:
         "200":
-          description: the logo with metadata
+          description: the logo with or without metadata
           content:
             multipart/form-data:
               schema:
                 $ref: 'schemas/logo.yaml#/components/schemas/Logo'
               encoding:
                 image:
-                  contentType: image/png, image/jpeg
+                  contentType: image/png
+        default:
+          "$ref": "schemas/belgif/problem/v1/problem-v1.yaml#/components/responses/ProblemResponse"
+  /doc:
+    get:
+      tags:
+        - Documentation
+      summary: List links
+      operationId: getDoc
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
         default:
           "$ref": "schemas/belgif/problem/v1/problem-v1.yaml#/components/responses/ProblemResponse"
   /doc/openapi.yaml:
@@ -391,8 +397,7 @@ paths:
           content:
             application/yaml:
               schema:
-                type: string
-                format: binary
+                "$ref": "#/components/schemas/OpenApi"
         default:
           "$ref": "schemas/belgif/problem/v1/problem-v1.yaml#/components/responses/ProblemResponse"
   /employers:
@@ -469,7 +474,6 @@ paths:
           in: path
           description: any type of NSSO Registration number
           required: true
-          x-extra-annotation: '@be.smals.validation.constraints.socialsecurity.NssoNumber'
           schema:
             $ref: 'schemas/belgif/employment/identifier/v1/employment-identifier-v1.yaml#/components/schemas/EmployerId'
       responses:
@@ -489,11 +493,10 @@ paths:
       parameters:
         - name: employerId
           in: path
-          description: any type of NSSO Registration Number
+          description: any type of employer id
           required: true
-          x-extra-annotation: '@be.smals.validation.constraints.socialsecurity.NssoNumber'
           schema:
-            type: string
+            $ref: 'schemas/belgif/employment/identifier/v1/employment-identifier-v1.yaml#/components/schemas/EmployerId'
       responses:
         "204":
           description: OK
@@ -506,7 +509,7 @@ paths:
       summary: Check health of this REST API
       description: This resource is only available to supervision users
       operationId: healthCheck
-      #TODO: use new health types once https://github.com/belgif/openapi-common/pull/5 released
+
       responses:
         "200":
           description: The service is UP or DEGRADED
@@ -521,7 +524,7 @@ paths:
         "500":
           description: The service cannot generate a health response.
           content:
-            application/json:
+            application/problem+json:
               schema:
                 $ref: 'schemas/belgif/problem/v1/problem-v1.yaml#/components/schemas/Problem'
         "503":
@@ -534,10 +537,15 @@ paths:
                 response:
                   value:
                     status: DOWN
+        default:
+          $ref: "schemas/belgif/problem/v1/problem-v1.yaml#/components/responses/ProblemResponse"
       externalDocs:
         url: https://www.gcloud.belgium.be/rest/#health
 components:
   schemas:
+    OpenApi:
+      type: string
+      format: binary
     HealthStatus:
       type: object
       required:
